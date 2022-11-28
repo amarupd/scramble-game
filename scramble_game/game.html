@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Carter+One&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <style>
+        *{ margin: 0;padding: 0;box-sizing: border-box;}
+        header{
+            width: 100%;
+            line-height: 15vh;
+            background-color:rgba(4, 126, 79, 0.971);
+        }
+        h1{
+            
+            text-align: center;
+            color: white;
+            text-transform: uppercase;
+            font-size: 1.8rem;
+            font-family: 'Carter One', cursive;
+            letter-spacing: 15px;
+            text-shadow:0 1px 0 #efefef,
+            0 1px 0 #efefef,
+            0 1px 0 #efefef,
+            0 1px 0 #efefef,
+            0 30px 5px rgba(0, 0, 0, .1) ;
+        }
+        section{
+            height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 255, 153, 0.639);
+        }
+        .gameArea{
+            width: 50%;
+            height: 400px;
+            padding: 20px 0;
+            background-color: rgba(61, 223, 142, 0.999);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Source Sans Pro', sans-serif;
+            box-shadow: 0 8px 6px -6px black;
+        }
+        h3{
+            text-align: center;
+            font-size: 1.5rem;
+
+        }
+        input{
+            width: 40%;
+            padding: 15px 0;
+            text-align: center;
+            border-radius: 25px;
+            outline: none;
+            border: none;
+            background-color:rgb(181, 255, 249);
+            color: black;
+            margin: 2rem 0;
+            font-size: 1.1rem;
+        }
+        button{
+            font-size: 1rem;
+            cursor: pointer;
+            outline: none;
+            border: #2f3542;
+            margin-top: 10px;
+            color: #ea1010;
+        }
+        button.btn{
+            font-weight: 600;
+            padding: 1rem 2rem;
+            background: white;
+            text-transform: uppercase;
+            transition-property: all;
+            transition-duration: 0.5s;
+            transition-timing-function: cubic-bezier(0.65,-0.25,0.25,1.95);
+        }
+        button.btn:hover,button.btn:focus , button.btn:active {
+            letter-spacing: 0.125rem;
+            word-spacing: 0.2rem;
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>GUESS THE WORD GAME</h1>
+    </header>
+    <SECtion>
+        <div class="gameArea">
+            <h3 class="msg"></h3>
+            <input type="text" class="hidden">
+            <button class="btn"> Click here to start</button>
+        </div>
+    </SECtion>
+    <script>
+        
+        const msg=document.querySelector('.msg');
+        const guess=document.querySelector('input');
+        const btn=document.querySelector('.btn');
+        let play=false;
+        let newWords="";
+        let randomWords="";
+        let sWords=['function','java','python','killer','game','mobile','android','number','laptop','computer','green',"think",'stay','recycle','stay','wrap','pollution','solution','arrest','earth','health','pencil'];
+        const createNewWords=()=>
+        {
+            let ran=Math.floor(Math.random()*sWords.length);
+            let newSwords=sWords[ran];
+            return newSwords;
+        }
+        const scramblewords=(arr)=>
+        {
+            for(let i=arr.length-1;i>0;i--)  
+            {
+                let temp=arr[i];
+                // console.log(temp);
+                let j=Math.floor(Math.random()*(i+1));
+                // console.log(i);
+                // console.log(j);
+                arr[i]=arr[j];
+                arr[j]=temp;
+                
+            }
+            return arr;
+        }
+        btn.addEventListener('click',function(){
+            if(!play)
+            {
+                play=true;
+                btn.innerHTML="Guess";
+                guess.classList.toggle('hidden');
+                newWords=createNewWords();
+                randomWords=scramblewords(newWords.split("")).join("");
+                // console.log(randomWords);
+                msg.innerHTML=`Guess the word :- ${randomWords}`;
+            }
+            else
+            {
+                let tempWord=guess.value;
+                if(tempWord===newWords)
+                {
+                    play=false;
+                    msg.innerHTML=`Awesome It's correct. It is ${newWords}`;
+                    btn.innerHTML="Start Again";
+                    guess.classList.toggle('hidden');
+                    guess.value="";
+                }else{
+                    play=false;
+                    msg.innerHTML=`Sorry Boss It's incorrect. Try Again ${randomWords}`;
+                    btn.innerHTML="Start Again";
+                }
+            }
+        })
+    </script>
+</body>
+</html>
